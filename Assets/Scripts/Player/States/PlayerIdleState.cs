@@ -7,11 +7,13 @@ public class PlayerIdleState : PlayerStateBase
     public override void Enter()
     {
         AddListeners();
+        player.AnimatorHelper.SetWalking(true);
     }
 
     public override void Exit()
     {
         RemoveListeners();
+        player.AnimatorHelper.SetWalking(false);
     }
 
     private void AddListeners()

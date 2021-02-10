@@ -1,14 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public abstract class PlayerStateBase : State
+﻿public abstract class PlayerStateBase : State
 {
     public PlayerStateMachine machine;
+    public IPlayer player;
 
     public virtual PlayerStateBase Init(PlayerStateMachine machine)
     {
         this.machine = machine;
+        this.player = machine.player;
         return this;
     }
 }
