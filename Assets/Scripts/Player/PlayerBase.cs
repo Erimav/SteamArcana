@@ -45,6 +45,13 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
 
     public PlayerStats FinalStats => stats;//TODO: Add stats modification
 
+    public Vector3 Position { get => _transform.position; set => _transform.position = value; }
+    public Quaternion Rotation { get => _transform.rotation; set => _transform.rotation = value; }
+
+    [SerializeField]
+    private PlayerSettings settings;
+    public PlayerSettings Settings { get => settings; set => settings = value; }
+
     private void Awake()
     {
         controller = GetComponent<CharacterController>();

@@ -12,11 +12,9 @@ namespace Assets.Scripts.Player
         private PlayerBase player;
 
         public Transform followTransform;
-        public float rotationLerpSpeed = 1f;
-
         private void Update()
         {
-            followTransform.rotation = Quaternion.Lerp(followTransform.localRotation, Quaternion.Euler(player.LookAngles.y, player.LookAngles.x, 0), rotationLerpSpeed * Time.deltaTime);
+            followTransform.rotation = Quaternion.Lerp(followTransform.localRotation, Quaternion.Euler(player.LookAngles.y, player.LookAngles.x, 0), player.Settings.cameraLerpSpeed * Time.deltaTime);
         }
     }
 }

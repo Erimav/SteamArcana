@@ -13,6 +13,7 @@ public interface IPlayer : IPositionProvider, IRotationProvider
     PlayerStats OriginalStats { get; set; }
     PlayerStats FinalStats { get; }
     Vector2 LookAngles { get; set; }
+    PlayerSettings Settings { get; set; }
 
     event UnityAction MoveStopped;
     event UnityAction MoveStarted;
