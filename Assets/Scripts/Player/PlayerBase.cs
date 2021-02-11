@@ -73,6 +73,8 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
             isGrounded = true;
             Landed?.Invoke();
         }
+
+        //(controller.collisionFlags & CollisionFlags.Above) != 0
     }
 
     public void Move(Vector3 motion) => controller.Move(_transform.TransformDirection(motion));
