@@ -7,30 +7,48 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
 {
     [SerializeField, HideInInspector]
     private CharacterController controller;
+    private bool isGrounded = true;
+    private Transform _transform;
 
     public PlayerStateMachine stateMachine;
     public PlayerStats stats;
+
+    private Vector2 lookAngles;
+    public Vector2 MotionInput { get; set; }
+    public Vector2 LookAngles
+    {
+        get => lookAngles;
+        set
+        {
+            value.x = Mathf.Clamp(value.x, -90f, 90f);
+            value.y %= 360f;
+            lookAngles = value;
+        }
+    }
+
+    //public ref PlayerStats GetOriginalStatsRef() => ref stats;
+
+    PlayerStats IPlayer.OriginalStats
+    {
+        get => stats;
+        set => stats = value;
+    }
+    public IPlayerAnimatorHelper AnimatorHelper { get; private set; }
 
     public event UnityAction MoveStopped;
     public event UnityAction MoveStarted;
     public event UnityAction MoveProceed;
     public event UnityAction GotOffTheLand;
     public event UnityAction Landed;
-
-    public IPlayerAnimatorHelper AnimatorHelper => throw new System.NotImplementedException();
-
-    public Vector3 MotionInput { get; set; }
-    PlayerStats IPlayer.OriginalStats
-    {
-        get => stats;
-        set => stats = value;
-    }
+    public event UnityAction JumpRequested;
+    public event UnityAction Jumped;
 
     public PlayerStats FinalStats => stats;//TODO: Add stats modification
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
+        AnimatorHelper = GetComponent<IPlayerAnimatorHelper>();
         stateMachine = new PlayerStateMachine();
         stateMachine.Init(this);
     }
@@ -38,9 +56,19 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
     private void Update()
     {
 
+        if (isGrounded && !controller.isGrounded)
+        {
+            isGrounded = false;
+            GotOffTheLand?.Invoke();
+        }
+        else if (!isGrounded && controller.isGrounded)
+        {
+            isGrounded = true;
+            Landed?.Invoke();
+        }
     }
 
-    public void Move(Vector3 motion) => controller.Move(motion);
+    public void Move(Vector3 motion) => controller.Move(_transform.TransformDirection(motion));
 
     void ISerializationCallbackReceiver.OnBeforeSerialize()
     {
@@ -49,5 +77,28 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
     void ISerializationCallbackReceiver.OnAfterDeserialize()
     {
         stateMachine.player = this;
+    }
+
+    public void StartMove(Vector2 motion)
+    {
+        MotionInput = motion;
+        MoveStarted?.Invoke();
+    }
+    public void StopMove()
+    {
+        MotionInput = Vector2.zero;
+        MoveStopped?.Invoke();
+    }
+
+    public void ProceedMove(Vector2 motion)
+    {
+        MotionInput = motion;
+        MoveProceed?.Invoke();
+    }
+
+    public void RequestJump() => JumpRequested?.Invoke();
+    public void Jump()
+    {
+        Jumped?.Invoke();
     }
 }

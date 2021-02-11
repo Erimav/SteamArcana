@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 
-public interface IPlayer
+public interface IPlayer : IPositionProvider, IRotationProvider
 {
     IPlayerAnimatorHelper AnimatorHelper { get; }
-    Vector3 MotionInput { get; set; }
+    Vector2 MotionInput { get; set; }
     PlayerStats OriginalStats { get; set; }
     PlayerStats FinalStats { get; }
+    Vector2 LookAngles { get; set; }
 
     event UnityAction MoveStopped;
     event UnityAction MoveStarted;

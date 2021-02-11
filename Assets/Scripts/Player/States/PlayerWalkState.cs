@@ -16,8 +16,9 @@ public class PlayerWalkState : PlayerStateBase
 
     public override void OnUpdate()
     {
-        var direction = player.MotionInput.normalized;
-        player.Move(direction * player.FinalStats.speed * Time.deltaTime);
+        var motionInput = player.MotionInput;
+        var motion = new Vector3(motionInput.x, 0f, motionInput.y);
+        player.Move(motion * player.FinalStats.speed * Time.deltaTime);
     }
 
     private void AddListeners()

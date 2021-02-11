@@ -17,7 +17,7 @@ public class PlayerIdleState : PlayerStateBase
     }
 
     private void AddListeners()
-    {
+    {   
         machine.player.MoveStarted += machine.SwitchToWalking;
     }
 

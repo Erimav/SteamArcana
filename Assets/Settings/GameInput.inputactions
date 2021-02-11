@@ -58,7 +58,7 @@
                     "type": "Value",
                     "id": "1c4a88b5-2474-4e49-8f10-f987bde2dee0",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "ScaleVector2(x=4,y=4)",
                     "interactions": ""
                 },
                 {
@@ -131,7 +131,7 @@
                     "id": "f8b893c4-85c2-492d-89ab-41f8d1520def",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.6,y=0.6)",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": true,
@@ -186,7 +186,7 @@
                     "id": "b437a09d-8ca4-4996-a2f1-edf980623f6e",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "ScaleVector2(x=0.6,y=0.6)",
+                    "processors": "NormalizeVector2",
                     "groups": "",
                     "action": "Move",
                     "isComposite": true,
