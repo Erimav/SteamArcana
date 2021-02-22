@@ -53,62 +53,6 @@ namespace Tests
             }
         }
 
-        [Test]
-        public void WalkStateSetsWalkingAnimationOnEnter()
-        {
-            var player = Substitute.For<IPlayer>();
-            var machine = new PlayerStateMachine();
-            var animatorHelper = Substitute.For<IPlayerAnimatorHelper>();
-            player.AnimatorHelper.Returns(animatorHelper);
-            machine.Init(player);
-
-            machine.SwitchToWalking();
-
-            animatorHelper.Received().SetWalking(true);
-        }
-
-        [Test]
-        public void WalkStateSetsOffWalkingAnimationOnExit()
-        {
-            var player = Substitute.For<IPlayer>();
-            var machine = new PlayerStateMachine();
-            var animatorHelper = Substitute.For<IPlayerAnimatorHelper>();
-            player.AnimatorHelper.Returns(animatorHelper);
-            machine.Init(player);
-
-            machine.SwitchToIdle();
-            machine.SwitchToWalking();
-
-            animatorHelper.Received().SetWalking(false);
-        }
-
-        [Test]
-        public void WalkStateCallsMoveMethod()
-        {
-            var state = new PlayerWalkState();
-            state.Init(Substitute.For<PlayerStateMachine>());
-            state.player = Substitute.For<IPlayer>();
-            state.player.MotionInput = Vector3.forward;
-
-            state.OnUpdate();
-
-            state.player.Received().Move(Arg.Any<Vector3>());
-        }
-
-        [Test]
-        public void WalkStateRotatesPlayerTowardsMoveDirection()
-        {
-            var state = new PlayerWalkState();
-            state.Init(Substitute.For<PlayerStateMachine>());
-            state.player = Substitute.For<IPlayer>();
-            state.player.MotionInput = Vector3.forward;
-            state.player.Rotation = Quaternion.Euler(0f, 90f, 0f);
-
-            state.OnUpdate();
-
-            Assert.Less(state.player.Rotation.eulerAngles.y, 90f);
-        }
-
 
 
         //// A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use

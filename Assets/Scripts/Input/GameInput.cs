@@ -71,7 +71,7 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""1c4a88b5-2474-4e49-8f10-f987bde2dee0"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""ScaleVector2(x=4,y=4)"",
+                    ""processors"": ""ScaleVector2(x=0.1,y=0.1)"",
                     ""interactions"": """"
                 },
                 {
@@ -386,7 +386,7 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""id"": ""88e5a69d-cf1d-43ce-b5ab-9db67f819255"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
-                    ""processors"": ""ScaleVector2(x=2,y=2)"",
+                    ""processors"": """",
                     ""groups"": ""KeyboardOrGamepad"",
                     ""action"": ""RotateCamera"",
                     ""isComposite"": false,

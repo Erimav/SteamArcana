@@ -8,12 +8,14 @@ using UnityEngine.Events;
 
 public interface IPlayer : IPositionProvider, IRotationProvider
 {
-    IPlayerAnimatorHelper AnimatorHelper { get; }
     Vector2 MotionInput { get; set; }
+    Vector3 Velocity { get; set; }
     PlayerStats OriginalStats { get; set; }
     PlayerStats FinalStats { get; }
     Vector2 LookAngles { get; set; }
     PlayerSettings Settings { get; set; }
+    Transform Transform { get; }
+    Quaternion TargetRotation { get; set; }
 
     event UnityAction MoveStopped;
     event UnityAction MoveStarted;
@@ -22,4 +24,6 @@ public interface IPlayer : IPositionProvider, IRotationProvider
     event UnityAction Landed;
 
     void Move(Vector3 motion);
+    void SetTargetRotationToCameraRotation();
+    void SetTargetRotationTowardsVelocity();
 }

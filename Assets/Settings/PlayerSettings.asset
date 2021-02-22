@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 404bad0ec6967b84f95a82e2f94f3e18, type: 3}
   m_Name: PlayerSettings
   m_EditorClassIdentifier: 
-  cameraLerpSpeed: 1
-  rotationLerpSpeed: 1
+  cameraLerpSpeed: 10
+  rotationLerpSpeed: 10
   airControl: 1
   airLerpSpeed: 1

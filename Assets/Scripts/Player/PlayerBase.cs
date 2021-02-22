@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(CharacterController))]
 public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
 {
     [SerializeField, HideInInspector]
@@ -13,15 +14,17 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
     public PlayerStateMachine stateMachine;
     public PlayerStats stats;
 
-    private Vector2 lookAngles;
     public Vector2 MotionInput { get; set; }
+    public Quaternion TargetRotation { get => targetRotation; set => targetRotation = value; }
+
+    private Vector2 lookAngles;
     public Vector2 LookAngles
     {
         get => lookAngles;
         set
         {
-            value.x = Mathf.Clamp(value.x, -90f, 90f);
-            value.y %= 360f;
+            value.y = Mathf.Clamp(value.y, -90f, 90f);
+            value.x %= 360f;
             lookAngles = value;
         }
     }
@@ -33,7 +36,6 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
         get => stats;
         set => stats = value;
     }
-    public IPlayerAnimatorHelper AnimatorHelper { get; private set; }
 
     public event UnityAction MoveStopped;
     public event UnityAction MoveStarted;
@@ -45,17 +47,21 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
 
     public PlayerStats FinalStats => stats;//TODO: Add stats modification
 
+    public Transform Transform => _transform;
     public Vector3 Position { get => _transform.position; set => _transform.position = value; }
     public Quaternion Rotation { get => _transform.rotation; set => _transform.rotation = value; }
 
     [SerializeField]
     private PlayerSettings settings;
+    private Quaternion targetRotation;
+
     public PlayerSettings Settings { get => settings; set => settings = value; }
+    public Vector3 Velocity { get; set; }
 
     private void Awake()
     {
+        _transform = transform;
         controller = GetComponent<CharacterController>();
-        AnimatorHelper = GetComponent<IPlayerAnimatorHelper>();
         stateMachine = new PlayerStateMachine();
         stateMachine.Init(this);
     }
@@ -74,10 +80,16 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
             Landed?.Invoke();
         }
 
+        stateMachine.OnUpdate();
+
+        Move(Velocity * Time.deltaTime);
+        _transform.rotation = Quaternion.Lerp(_transform.rotation, targetRotation, settings.rotationLerpSpeed * Time.deltaTime);
         //(controller.collisionFlags & CollisionFlags.Above) != 0
     }
 
-    public void Move(Vector3 motion) => controller.Move(_transform.TransformDirection(motion));
+    public void Move(Vector3 motion) => controller.Move(motion);
+    public void SetTargetRotationToCameraRotation() => TargetRotation = Quaternion.Euler(0f, lookAngles.x, 0f);
+    public void SetTargetRotationTowardsVelocity() => TargetRotation = Quaternion.LookRotation(Velocity.WithY(0f));
 
     void ISerializationCallbackReceiver.OnBeforeSerialize()
     {
