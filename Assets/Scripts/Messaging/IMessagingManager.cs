@@ -2,5 +2,5 @@
 
 public interface IMessagingManager
 {
-    void SendMessage<T>(T message) where T : IBitWritable, new();
+    void SendMessage<T>(T message) where T : IMessageData, new();
 }

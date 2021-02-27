@@ -11,8 +11,8 @@ using MLAPI.Serialization.Pooled;
 
 public class NetworkedMessagingManager : ScriptableObject, IMessagingManager
 {
-    [SerializeReference]
-    public IMessagingManager messagingManager;
+    [SerializeField]
+    public MessagingManager messagingManager;
 
     private void Awake()
     {
@@ -21,10 +21,23 @@ public class NetworkedMessagingManager : ScriptableObject, IMessagingManager
 
     public void OnMessage(ulong clientId, Stream stream)
     {
-        throw new NotImplementedException();
+        try
+        {
+            using (var reader = PooledBitReader.Get(stream))
+            {
+                //var bytes = new byte[4];
+                //stream.Read(bytes, 4, 0);
+                var messageCode = reader.ReadInt32();
+                messagingManager.OnNetworkMessage((MessageCode)messageCode, stream);
+            }
+        }
+        catch
+        {
+            throw;
+        }
     }
 
-    public void SendMessage<T>(T message) where T : IBitWritable, new()
+    public void SendMessage<T>(T message) where T : IMessageData, new()
     {
 
     }

@@ -1,6 +1,7 @@
 ﻿using MLAPI.Serialization;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,27 +13,51 @@ public class MessagingManager : ScriptableObject, IMessagingManager
     [SerializeField]
     private GameObject networkedMessagingManagerPrefab;
     public bool isMultiplayer;
-    [SerializeReference]
+    [SerializeField, SerializeReference]
     public IMessagingManager networkedManager;
 
+    private Dictionary<MessageCode, IMessageReceiver> receivers = new Dictionary<MessageCode, IMessageReceiver>();
+
     public void SendMessage<T>(T message)
-        where T : IBitWritable, new()
+        where T : IMessageData, new()
     {
-        throw new NotImplementedException();
+        if (isMultiplayer)
+        {
+            networkedManager.SendMessage(message);
+            return;
+        }
+
+        var code = message.MessageCode;
+        if (!receivers.ContainsKey(code))
+        {
+            Debug.LogError($"No receiver registered for {code}");
+            return;
+        }
+
+        receivers[code].ReceiveMessage(message);
     }
 
-    public void SendMessage(string messageType, byte[] data)
+    public virtual void OnNetworkMessage(MessageCode messageCode, Stream messageStream)
     {
-        throw new NotImplementedException();
+        if (!receivers.ContainsKey(messageCode))
+        {
+            Debug.LogError($"No receiver registered for {messageCode}");
+            return;
+        }
+
+        receivers[messageCode].ReceiveMessage(messageCode, messageStream);
     }
 
-    public void RegisterMessageReceiver<T>(IMessageReceiver receiver)
-        where T : IBitWritable
-        => RegisterMessageReceiver(typeof(T), receiver);
-
-    public void RegisterMessageReceiver(Type type, IMessageReceiver receiver)
+    public void RegisterMessageReceiver(MessageCode code, IMessageReceiver receiver)
     {
-        
+        var typeName = code;
+        if (receivers.ContainsKey(typeName))
+        {
+            Debug.LogError($"Attempt to register 2 receivers for {code}, aborting");
+            return;
+        }
+
+        receivers[typeName] = receiver;
     }
 }
 

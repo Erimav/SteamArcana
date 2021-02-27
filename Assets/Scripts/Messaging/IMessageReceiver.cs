@@ -1,8 +1,9 @@
 ﻿using MLAPI.Serialization;
+using System.IO;
 
 public interface IMessageReceiver
 {
-    void ReceiveMessage(string messageType, byte[] data);
+    void ReceiveMessage(MessageCode messageType, Stream messageStream);
     void ReceiveMessage<T>(T message);
 }
 
