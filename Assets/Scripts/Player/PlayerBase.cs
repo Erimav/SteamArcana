@@ -58,6 +58,8 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
     public PlayerSettings Settings { get => settings; set => settings = value; }
     public Vector3 Velocity { get; set; }
 
+    public int PlayerId { get; set; }
+
     private void Awake()
     {
         _transform = transform;

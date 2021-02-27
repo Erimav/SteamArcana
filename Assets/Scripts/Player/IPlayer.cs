@@ -8,6 +8,7 @@ using UnityEngine.Events;
 
 public interface IPlayer : IPositionProvider, IRotationProvider
 {
+    int PlayerId { get; }
     Vector2 MotionInput { get; set; }
     Vector3 Velocity { get; set; }
     PlayerStats OriginalStats { get; set; }

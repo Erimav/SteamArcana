@@ -39,7 +39,16 @@ public class NetworkedMessagingManager : ScriptableObject, IMessagingManager
 
     public void SendMessage<T>(T message) where T : IMessageData, new()
     {
+        using (var stream = PooledBitStream.Get())
+        {
+            using (var writer = PooledBitWriter.Get(stream))
+            {
+                writer.WriteInt32((int)message.MessageCode);
+                message.Write(stream);
+            }
 
+            CustomMessagingManager.SendUnnamedMessage(null, stream);
+        }
     }
 }
 

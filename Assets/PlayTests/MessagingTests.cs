@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine.TestTools;
 
-public enum MessageCode
+namespace Tests
 {
-    PlayerStartMove = 1,
-}
+    public class MessagingTests
+    {
 
+    }
+}
