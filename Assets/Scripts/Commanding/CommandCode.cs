@@ -4,8 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-public enum MessageCode
+public enum CommandCode
 {
     PlayerStartMove = 1,
+    PlayerStoppedMove,
+    PlayerJump,
+
 }
 

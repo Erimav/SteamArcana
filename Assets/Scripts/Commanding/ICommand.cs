@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public interface IMessageData : IBitWritable
+public interface ICommand : IBitWritable
 {
-    MessageCode MessageCode { get; }
+    CommandCode MessageCode { get; }
+    void Execute(object sender);
 }
 

@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "MessagingManager",menuName = "Messaging/Manager")]
-public class MessagingManager : ScriptableObject, IMessagingManager
+public class CommandsManager : ScriptableObject, ICommandsManager
 {
     [SerializeField]
     private GameObject networkedMessagingManagerPrefab;
     public bool isMultiplayer;
     [SerializeField, SerializeReference]
-    public IMessagingManager networkedManager;
+    public ICommandsManager networkedManager;
 
-    private Dictionary<MessageCode, IMessageReceiver> receivers = new Dictionary<MessageCode, IMessageReceiver>();
+    private Dictionary<CommandCode, ICommandReceiver> receivers = new Dictionary<CommandCode, ICommandReceiver>();
 
     public void SendMessage<T>(T message)
-        where T : IMessageData, new()
+        where T : ICommand, new()
     {
         if (isMultiplayer)
         {
@@ -37,7 +37,7 @@ public class MessagingManager : ScriptableObject, IMessagingManager
         receivers[code].ReceiveMessage(message);
     }
 
-    public virtual void OnNetworkMessage(MessageCode messageCode, Stream messageStream)
+    public virtual void OnNetworkMessage(CommandCode messageCode, Stream messageStream)
     {
         if (!receivers.ContainsKey(messageCode))
         {
@@ -48,7 +48,7 @@ public class MessagingManager : ScriptableObject, IMessagingManager
         receivers[messageCode].ReceiveMessage(messageCode, messageStream);
     }
 
-    public void RegisterMessageReceiver(MessageCode code, IMessageReceiver receiver)
+    public void RegisterMessageReceiver(CommandCode code, ICommandReceiver receiver)
     {
         var typeName = code;
         if (receivers.ContainsKey(typeName))

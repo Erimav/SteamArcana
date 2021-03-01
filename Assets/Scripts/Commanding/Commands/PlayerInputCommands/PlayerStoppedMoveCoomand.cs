@@ -1,31 +1,34 @@
 ﻿using MLAPI.Serialization.Pooled;
 using System;
+using System.Collections.Generic;
 using System.IO;
-using UnityEngine;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public struct PlayerStartMoveMessage : IMessageData
+
+public struct PlayerStoppedMoveCoomand : ICommand
 {
-    public MessageCode MessageCode => MessageCode.PlayerStartMove;
+    public CommandCode MessageCode => CommandCode.PlayerStoppedMove;
 
     public int playerId;
-    public Vector2 motion;
 
     public void Read(Stream stream)
     {
         using (var reader = PooledBitReader.Get(stream))
-        {
             playerId = reader.ReadInt32Packed();
-            motion = reader.ReadVector2Packed();
-        }
     }
 
     public void Write(Stream stream)
     {
         using (var writer = PooledBitWriter.Get(stream))
-        {
             writer.WriteInt32Packed(playerId);
-            writer.WriteVector2Packed(motion);
-        }
+    }
+
+    public void Execute(object sender)
+    {
+        var player = (sender as PlayersSystem).GetPlayer(playerId);
+        player.StopMove();
     }
 }
 

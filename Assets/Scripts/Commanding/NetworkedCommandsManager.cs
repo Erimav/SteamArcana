@@ -9,10 +9,10 @@ using MLAPI.Messaging;
 using System.IO;
 using MLAPI.Serialization.Pooled;
 
-public class NetworkedMessagingManager : ScriptableObject, IMessagingManager
+public class NetworkedCommandsManager : ScriptableObject, ICommandsManager
 {
     [SerializeField]
-    public MessagingManager messagingManager;
+    public CommandsManager messagingManager;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class NetworkedMessagingManager : ScriptableObject, IMessagingManager
                 //var bytes = new byte[4];
                 //stream.Read(bytes, 4, 0);
                 var messageCode = reader.ReadInt32();
-                messagingManager.OnNetworkMessage((MessageCode)messageCode, stream);
+                messagingManager.OnNetworkMessage((CommandCode)messageCode, stream);
             }
         }
         catch
@@ -37,7 +37,7 @@ public class NetworkedMessagingManager : ScriptableObject, IMessagingManager
         }
     }
 
-    public void SendMessage<T>(T message) where T : IMessageData, new()
+    public void SendMessage<T>(T message) where T : ICommand, new()
     {
         using (var stream = PooledBitStream.Get())
         {

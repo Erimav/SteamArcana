@@ -7,44 +7,30 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayersSystem", menuName = "Systems/PlayersSystem")]
-public class PlayersSystem : ScriptableObject, IMessageReceiver
+public class PlayersSystem : ScriptableObject, ICommandReceiver
 {
-    public MessagingManager messaging;
+    public CommandsManager messaging;
 
     public int localPlayerId;
     public List<PlayerBase> players = new List<PlayerBase>();
     public PlayerBase LocalPlayer => GetPlayer(localPlayerId);
 
     public PlayerBase GetPlayer(int playerId) => players[playerId];
-    public void ReceiveMessage(MessageCode messageType, Stream messageStream)
+    public void ReceiveMessage(CommandCode commandCode, Stream messageStream)
     {
-        switch (messageType)
+        switch (commandCode)
         {
-            case MessageCode.PlayerStartMove:
-                var message = new PlayerStartMoveMessage();
-                message.Read(messageStream);
-                OnPlayerStartedMove(message);
+            case CommandCode.PlayerStartMove:
+                var command = new PlayerStartMoveCommand();
+                command.Read(messageStream);
+                command.Execute(this);
                 break;
         }
     }
 
-    public void ReceiveMessage<T>(T message)
+    public void ReceiveMessage<T>(T message) where T : ICommand
     {
-        if (!messaging.isMultiplayer)
-            return;
-
-        switch (message)
-        {
-            case PlayerStartMoveMessage msg:
-                OnPlayerStartedMove(msg);
-                break;
-        }
-    }
-
-    public void OnPlayerStartedMove(PlayerStartMoveMessage msg)
-    {
-        var player = GetPlayer(msg.playerId);
-        player.StartMove(msg.motion);
+        message.Execute(this);
     }
 }
 

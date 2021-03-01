@@ -9,9 +9,13 @@ namespace Tests
 {
     public class MessagingTests
     {
-        public struct TestStruct : IMessageData
+        public struct TestStruct : ICommand
         {
-            public MessageCode MessageCode => default;
+            public CommandCode MessageCode => default;
+
+            public void Execute(object sender)
+            {
+            }
 
             public void Read(Stream stream)
             {
@@ -25,9 +29,9 @@ namespace Tests
         [Test]
         public void ManagerSendsMessageToRegisteredReceiverDirectlyIfOffline()
         {
-            var manager = new MessagingManager();
+            var manager = new CommandsManager();
             var message = new TestStruct();
-            var receiver = Substitute.For<IMessageReceiver>();
+            var receiver = Substitute.For<ICommandReceiver>();
             manager.RegisterMessageReceiver(default, receiver);
             manager.SendMessage(message);
 
@@ -37,9 +41,9 @@ namespace Tests
         [Test]
         public void ManagerSendsMessageToNetworkedManagerIfOnline()
         {
-            var manager = new MessagingManager();
+            var manager = new CommandsManager();
             var message = new TestStruct();
-            manager.networkedManager = Substitute.For<IMessagingManager>();
+            manager.networkedManager = Substitute.For<ICommandsManager>();
             manager.isMultiplayer = true;
             manager.SendMessage(message);
 
@@ -49,8 +53,8 @@ namespace Tests
         [Test]
         public void NetworkedManagerSendsMessageToMessagingManagerOnReceive()
         {
-            var networkedManager = new NetworkedMessagingManager();
-            networkedManager.messagingManager = Substitute.For<MessagingManager>();
+            var networkedManager = new NetworkedCommandsManager();
+            networkedManager.messagingManager = Substitute.For<CommandsManager>();
             using (var stream = PooledBitStream.Get())
             {
                 using (var writer = PooledBitWriter.Get(stream))
