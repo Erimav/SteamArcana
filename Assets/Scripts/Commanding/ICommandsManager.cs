@@ -2,5 +2,5 @@
 
 public interface ICommandsManager
 {
-    void SendMessage<T>(T message) where T : ICommand, new();
+    void SendCommand<T>(T message) where T : ICommand, new();
 }

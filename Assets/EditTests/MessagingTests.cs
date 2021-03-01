@@ -32,8 +32,8 @@ namespace Tests
             var manager = new CommandsManager();
             var message = new TestStruct();
             var receiver = Substitute.For<ICommandReceiver>();
-            manager.RegisterMessageReceiver(default, receiver);
-            manager.SendMessage(message);
+            manager.RegisterCommandReceiver(default, receiver);
+            manager.SendCommand(message);
 
             receiver.Received().ReceiveMessage(message);
         }
@@ -45,9 +45,9 @@ namespace Tests
             var message = new TestStruct();
             manager.networkedManager = Substitute.For<ICommandsManager>();
             manager.isMultiplayer = true;
-            manager.SendMessage(message);
+            manager.SendCommand(message);
 
-            manager.networkedManager.Received().SendMessage(message);
+            manager.networkedManager.Received().SendCommand(message);
         }
 
         [Test]

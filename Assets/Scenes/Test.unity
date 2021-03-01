@@ -182,10 +182,9 @@ GameObject:
   - component: {fileID: 200132248}
   - component: {fileID: 200132247}
   - component: {fileID: 200132250}
-  - component: {fileID: 200132246}
-  - component: {fileID: 200132251}
   - component: {fileID: 200132252}
   - component: {fileID: 200132253}
+  - component: {fileID: 200132246}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -202,7 +201,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 200132245}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb62454e39e72c14cbc43b48f6706733, type: 3}
+  m_Script: {fileID: 11500000, guid: ac21bfe4129267446ab8b09c2efb7c81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 0}
@@ -289,18 +288,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &200132251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200132245}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6ba1723c3976b941b4d39b003a6438e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &200132252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,6 +300,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71d66b3fa4d7a8a4ba3757dbdc96ab03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playersSystem: {fileID: 11400000, guid: 9fd8b5f63f8347a4abd9be9c7607b582, type: 2}
 --- !u!114 &200132253
 MonoBehaviour:
   m_ObjectHideFlags: 0

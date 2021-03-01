@@ -7,9 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "MessagingManager",menuName = "Messaging/Manager")]
+[CreateAssetMenu(fileName = "CommandsManager",menuName = "Commands/Manager")]
 public class CommandsManager : ScriptableObject, ICommandsManager
 {
+    public static CommandsManager Instance { get; private set; }
+
     [SerializeField]
     private GameObject networkedMessagingManagerPrefab;
     public bool isMultiplayer;
@@ -18,12 +20,12 @@ public class CommandsManager : ScriptableObject, ICommandsManager
 
     private Dictionary<CommandCode, ICommandReceiver> receivers = new Dictionary<CommandCode, ICommandReceiver>();
 
-    public void SendMessage<T>(T message)
+    public void SendCommand<T>(T message)
         where T : ICommand, new()
     {
         if (isMultiplayer)
         {
-            networkedManager.SendMessage(message);
+            networkedManager.SendCommand(message);
             return;
         }
 
@@ -48,7 +50,7 @@ public class CommandsManager : ScriptableObject, ICommandsManager
         receivers[messageCode].ReceiveMessage(messageCode, messageStream);
     }
 
-    public void RegisterMessageReceiver(CommandCode code, ICommandReceiver receiver)
+    public void RegisterCommandReceiver(CommandCode code, ICommandReceiver receiver)
     {
         var typeName = code;
         if (receivers.ContainsKey(typeName))
@@ -58,6 +60,11 @@ public class CommandsManager : ScriptableObject, ICommandsManager
         }
 
         receivers[typeName] = receiver;
+    }
+
+    private void Awake()
+    {
+        Instance = this;
     }
 }
 

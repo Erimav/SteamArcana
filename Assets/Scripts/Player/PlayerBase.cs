@@ -60,7 +60,7 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
 
     public int PlayerId { get; set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         _transform = transform;
         controller = GetComponent<CharacterController>();
@@ -68,7 +68,7 @@ public class PlayerBase : MonoBehaviour, IPlayer, ISerializationCallbackReceiver
         stateMachine.Init(this);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
 
         if (isGrounded && !controller.isGrounded)

@@ -5,18 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour, GameInput.IGameplayActions
 {
+    [SerializeField]
     private PlayersSystem playersSystem;
     private PlayerBase player;
     private GameInput input;
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
     }
 
     public void OnInteract(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -42,12 +42,12 @@ public class PlayerInputController : MonoBehaviour, GameInput.IGameplayActions
 
     public void OnOpenInventory(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnPause(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     public void OnRotateCamera(InputAction.CallbackContext context)
@@ -62,7 +62,7 @@ public class PlayerInputController : MonoBehaviour, GameInput.IGameplayActions
 
     public void OnSprint(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        
     }
 
     private void Awake()

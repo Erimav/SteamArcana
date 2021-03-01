@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 404bad0ec6967b84f95a82e2f94f3e18, type: 3}
-  m_Name: PlayerSettings
+  m_Script: {fileID: 11500000, guid: f2411cf124c3dd64a901a40c71754b4c, type: 3}
+  m_Name: PlayersSystem
   m_EditorClassIdentifier: 
-  cameraLerpSpeed: 10
-  rotationLerpSpeed: 10
-  airControl: 1
-  airLerpSpeed: 1
+  commands: {fileID: 11400000, guid: f189cf032a74f1b48aa4c43d6f668a21, type: 2}
+  localPlayerId: 0
+  players:
+  - {fileID: 0}

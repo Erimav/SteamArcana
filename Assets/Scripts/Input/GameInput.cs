@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Settings/GameInput.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Resources/Settings/GameInput.inputactions'
 
 using System;
 using System.Collections;
@@ -71,7 +71,7 @@ public class @GameInput : IInputActionCollection, IDisposable
                     ""type"": ""Value"",
                     ""id"": ""1c4a88b5-2474-4e49-8f10-f987bde2dee0"",
                     ""expectedControlType"": ""Vector2"",
-                    ""processors"": ""ScaleVector2(x=0.1,y=0.1)"",
+                    ""processors"": ""ScaleVector2(x=0.03,y=0.03)"",
                     ""interactions"": """"
                 },
                 {

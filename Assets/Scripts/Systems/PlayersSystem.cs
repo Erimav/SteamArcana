@@ -7,16 +7,21 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "PlayersSystem", menuName = "Systems/PlayersSystem")]
-public class PlayersSystem : ScriptableObject, ICommandReceiver
+[RecievesCommand(CommandCode.PlayerStartMove)]
+[RecievesCommand(CommandCode.PlayerProceedMove)]
+[RecievesCommand(CommandCode.PlayerStoppedMove)]
+[RecievesCommand(CommandCode.PlayerJump)]
+[RecievesCommand(CommandCode.PlayerAttack)]
+[RecievesCommand(CommandCode.PlayerSecondaryAttack)]
+[RecievesCommand(CommandCode.PlayerInteract)]
+public class PlayersSystem : SystemBase
 {
-    public CommandsManager messaging;
-
     public int localPlayerId;
     public List<PlayerBase> players = new List<PlayerBase>();
     public PlayerBase LocalPlayer => GetPlayer(localPlayerId);
 
     public PlayerBase GetPlayer(int playerId) => players[playerId];
-    public void ReceiveMessage(CommandCode commandCode, Stream messageStream)
+    public override void ReceiveMessage(CommandCode commandCode, Stream messageStream)
     {
         switch (commandCode)
         {
@@ -28,14 +33,23 @@ public class PlayersSystem : ScriptableObject, ICommandReceiver
         }
     }
 
-    public void ReceiveMessage<T>(T message) where T : ICommand
+    public void StartMoveLocalPlayer(Vector2 motion) => commands.SendCommand(new PlayerStartMoveCommand
     {
-        message.Execute(this);
-    }
+        playerId = localPlayerId,
+        motion = motion
+    });
+    public void ProceedMoveLocalPlayer(Vector2 motion) => commands.SendCommand(new PlayerProceedMoveCommand
+    {
+        playerId = localPlayerId,
+        motion = motion
+    });
+    public void StopMoveLocalPlayer() => commands.SendCommand(new PlayerStoppedMoveCommand { playerId = localPlayerId });
+    public void JumpLocalPlayer() => commands.SendCommand(new PlayerJumpCommand { playerId = localPlayerId });
 
-    public void StartMoveLocalPlayer (Vector2 motion) => messaging.SendMessage(new PlayerStartMoveCommand { playerId = localPlayerId, motion = motion });
-    public void ProceedMoveLocalPlayer(Vector2 motion) => messaging.SendMessage(new PlayerProceedMoveCommand { playerId = localPlayerId, motion = motion });
-    public void StopMoveLocalPlayer() => messaging.SendMessage(new PlayerStoppedMoveCommand { playerId = localPlayerId });
-    public void JumpLocalPlayer() => messaging.SendMessage(new PlayerJumpCommand { playerId = localPlayerId });
+    public void SetLocalPlayer(LocalPlayer localPlayer)
+    {
+        localPlayerId = localPlayer.PlayerId;
+        players[localPlayerId] = localPlayer;
+    }
 }
 

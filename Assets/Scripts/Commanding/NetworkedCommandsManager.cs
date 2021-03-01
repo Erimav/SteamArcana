@@ -37,7 +37,7 @@ public class NetworkedCommandsManager : ScriptableObject, ICommandsManager
         }
     }
 
-    public void SendMessage<T>(T message) where T : ICommand, new()
+    public void SendCommand<T>(T message) where T : ICommand, new()
     {
         using (var stream = PooledBitStream.Get())
         {
