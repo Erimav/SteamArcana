@@ -43,7 +43,7 @@ public class NetworkedCommandsManager : ScriptableObject, ICommandsManager
         {
             using (var writer = PooledBitWriter.Get(stream))
             {
-                writer.WriteInt32((int)message.MessageCode);
+                writer.WriteInt32((int)message.CommandCode);
                 message.Write(stream);
             }
 

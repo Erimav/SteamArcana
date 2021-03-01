@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 public enum CommandCode
 {
     PlayerStartMove = 1,
+    PlayerProceedMove,
     PlayerStoppedMove,
     PlayerJump,
-
+    PlayerAttack,
+    PlayerSecondaryAttack,
+    PlayerInteract,
 }
 

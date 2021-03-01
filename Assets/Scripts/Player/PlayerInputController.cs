@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputController : MonoBehaviour, GameInput.IGameplayActions
 {
+    private PlayersSystem playersSystem;
     private PlayerBase player;
     private GameInput input;
 
@@ -20,7 +21,7 @@ public class PlayerInputController : MonoBehaviour, GameInput.IGameplayActions
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        throw new System.NotImplementedException();
+        playersSystem.JumpLocalPlayer();
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -28,13 +29,13 @@ public class PlayerInputController : MonoBehaviour, GameInput.IGameplayActions
         switch (context.phase)
         {
             case InputActionPhase.Started:
-                player.StartMove(context.ReadValue<Vector2>());
+                playersSystem.StartMoveLocalPlayer(context.ReadValue<Vector2>());
                 break;
             case InputActionPhase.Performed:
-                player.ProceedMove(context.ReadValue<Vector2>());
+                playersSystem.ProceedMoveLocalPlayer(context.ReadValue<Vector2>());
                 break;
             case InputActionPhase.Canceled:
-                player.StopMove();
+                playersSystem.StopMoveLocalPlayer();
                 break;
         }
     }

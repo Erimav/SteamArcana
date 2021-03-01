@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public interface ICommand : IBitWritable
 {
-    CommandCode MessageCode { get; }
+    CommandCode CommandCode { get; }
     void Execute(object sender);
 }
 

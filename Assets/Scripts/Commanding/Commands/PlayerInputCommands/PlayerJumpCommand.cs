@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 public struct PlayerJumpCommand : ICommand
 {
-    public CommandCode MessageCode => CommandCode.PlayerJump;
+    public CommandCode CommandCode => CommandCode.PlayerJump;
 
     public int playerId;
 

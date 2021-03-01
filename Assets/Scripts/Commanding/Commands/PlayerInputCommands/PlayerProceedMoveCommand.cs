@@ -1,11 +1,10 @@
 ﻿using MLAPI.Serialization.Pooled;
-using System;
 using System.IO;
 using UnityEngine;
 
-public struct PlayerStartMoveCommand : ICommand
+public struct PlayerProceedMoveCommand : ICommand
 {
-    public CommandCode CommandCode => CommandCode.PlayerStartMove;
+    public CommandCode CommandCode => CommandCode.PlayerProceedMove;
 
     public int playerId;
     public Vector2 motion;
@@ -31,7 +30,7 @@ public struct PlayerStartMoveCommand : ICommand
     public void Execute(object sender)
     {
         var player = (sender as PlayersSystem).GetPlayer(playerId);
-        player.StartMove(motion);
+        player.ProceedMove(motion);
     }
 }
 

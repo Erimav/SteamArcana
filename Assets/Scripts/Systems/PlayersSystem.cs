@@ -32,5 +32,10 @@ public class PlayersSystem : ScriptableObject, ICommandReceiver
     {
         message.Execute(this);
     }
+
+    public void StartMoveLocalPlayer (Vector2 motion) => messaging.SendMessage(new PlayerStartMoveCommand { playerId = localPlayerId, motion = motion });
+    public void ProceedMoveLocalPlayer(Vector2 motion) => messaging.SendMessage(new PlayerProceedMoveCommand { playerId = localPlayerId, motion = motion });
+    public void StopMoveLocalPlayer() => messaging.SendMessage(new PlayerStoppedMoveCommand { playerId = localPlayerId });
+    public void JumpLocalPlayer() => messaging.SendMessage(new PlayerJumpCommand { playerId = localPlayerId });
 }
 

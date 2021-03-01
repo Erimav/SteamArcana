@@ -27,7 +27,7 @@ public class CommandsManager : ScriptableObject, ICommandsManager
             return;
         }
 
-        var code = message.MessageCode;
+        var code = message.CommandCode;
         if (!receivers.ContainsKey(code))
         {
             Debug.LogError($"No receiver registered for {code}");

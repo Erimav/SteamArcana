@@ -1,15 +1,10 @@
 ﻿using MLAPI.Serialization.Pooled;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
-public struct PlayerStoppedMoveCoomand : ICommand
+public struct PlayerStoppedMoveCommand : ICommand
 {
-    public CommandCode MessageCode => CommandCode.PlayerStoppedMove;
+    public CommandCode CommandCode => CommandCode.PlayerStoppedMove;
 
     public int playerId;
 

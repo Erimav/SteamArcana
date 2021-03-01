@@ -11,7 +11,7 @@ namespace Tests
     {
         public struct TestStruct : ICommand
         {
-            public CommandCode MessageCode => default;
+            public CommandCode CommandCode => default;
 
             public void Execute(object sender)
             {
